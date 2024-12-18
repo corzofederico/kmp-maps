@@ -4,23 +4,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Modifier
 
-const val mapsApiKey = "AIzaSyBZQEY-F1dcI5mq9M8geeiRMoxFSAQkNmc" // api for test
-
 val LocalMapDrawScope = staticCompositionLocalOf<MapDrawScope> {
     throw Error("No MapDrawScope provided")
 }
 
 fun rememberMapState(
+    key: String,
     defaultCenter: Coordinates = Coordinates.ZERO,
     defaultZoom: Int = 1
 ) = MapState(
+    key,
     defaultCenter,
     defaultZoom
 )
 
 @Composable
 expect fun MapView(
-    state: MapState = rememberMapState(),
+    state: MapState,
     modifier: Modifier = Modifier,
     draw: @Composable ()->Unit
 )

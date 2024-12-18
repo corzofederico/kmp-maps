@@ -5,6 +5,7 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import kotlin.jvm.JvmName
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 

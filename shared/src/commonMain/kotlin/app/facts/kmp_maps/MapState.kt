@@ -5,9 +5,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class MapState(
+    key: String,
     defaultCenter: Coordinates = Coordinates.ZERO,
-    defaultZoom: Int = 1
+    defaultZoom: Int = 1,
 ){
+    val key = MutableStateFlow<String>(key)
     val center = MutableStateFlow<Coordinates>(defaultCenter)
     val zoom = MutableStateFlow<Int>(defaultZoom)
 

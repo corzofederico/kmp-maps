@@ -24,6 +24,8 @@ kotlin {
     jvm("desktop")
 
     androidTarget {
+        publishLibraryVariants("release")
+
         compilations.all {
             compileTaskProvider.configure {
                 compilerOptions {

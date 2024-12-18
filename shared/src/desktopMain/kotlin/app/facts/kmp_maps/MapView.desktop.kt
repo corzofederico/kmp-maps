@@ -78,16 +78,15 @@ fun rememberMapListener(
 }
 
 
-val osmInfo = OSMTileFactoryInfo()
-val veInfo = VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.MAP)
-val googleInfo = GoogleMapsTileFactoryInfo("maps-test","https://maps.googleapis.com/maps/api/staticmap",
-    mapsApiKey
-)
-val factories = listOf(
+//val osmInfo = OSMTileFactoryInfo()
+//val veInfo = VirtualEarthTileFactoryInfo(VirtualEarthTileFactoryInfo.MAP)
+fun googleInfo(key: String) = GoogleMapsTileFactoryInfo("maps-test","https://maps.googleapis.com/maps/api/staticmap", key)
+fun googleFactory(key: String) = DefaultTileFactory(googleInfo(key))
+/*val factories = listOf(
     DefaultTileFactory(googleInfo),
     DefaultTileFactory(osmInfo),
     DefaultTileFactory(veInfo),
-)
+)*/
 
 fun MapElement.painter(): Painter<JXMapViewer>{
     return when(this){
@@ -119,16 +118,7 @@ actual fun MapView(
     val cScope = rememberCoroutineScope()
     val drawScope = remember(state){ MapDrawScope(state, cScope) }
 
-
-    var selectedFactoryIndex by remember{
-        mutableStateOf(0)
-    }
-    val selectedFactory by remember(selectedFactoryIndex){
-        derivedStateOf{
-            factories[selectedFactoryIndex]
-        }
-    }
-
+    val key by state.key.collectAsState()
     val center by state.center.collectAsState()
     val zoom by state.zoom.collectAsState()
     val elements by state.elements.collectAsState()
@@ -144,9 +134,9 @@ actual fun MapView(
             repaint()
         }
     }
-    LaunchedEffect(mapView, zoom, center, selectedFactory){
+    LaunchedEffect(mapView, zoom, center, key){
         mapView.apply{
-            setTileFactory(selectedFactory)
+            setTileFactory(googleFactory(key))
             setZoom(zoom)
             setCenterPosition(center.toGeoPosition())
             repaint()
